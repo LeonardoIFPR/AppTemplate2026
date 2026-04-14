@@ -8,13 +8,14 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
+import android.widget.RadioGroup
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -22,53 +23,39 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.StorageReference
 import com.ifpr.androidapptemplate.R
 import com.ifpr.androidapptemplate.baseclasses.Item
-import com.ifpr.androidapptemplate.databinding.FragmentDashboardBinding
-
+import androidx.navigation.fragment.findNavController
 
 class DashboardFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
-
     private lateinit var enderecoEditText: EditText
+    private lateinit var tituloEditText: EditText
+    private lateinit var descricaoEditText: EditText
+    private lateinit var radioGroupCategoria: RadioGroup
     private lateinit var itemImageView: ImageView
     private var imageUri: Uri? = null
 
-
-    //TODO("Declare aqui as outras variaveis do tipo EditText que foram inseridas no layout")
     private lateinit var salvarButton: Button
     private lateinit var selectImageButton: Button
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var storageReference: StorageReference
     private lateinit var auth: FirebaseAuth
 
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
     }
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
-
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
+
+        // Capturar campos do layout
         itemImageView = view.findViewById(R.id.image_item)
         salvarButton = view.findViewById(R.id.salvarItemButton)
         selectImageButton = view.findViewById(R.id.button_select_image)
         enderecoEditText = view.findViewById(R.id.enderecoItemEditText)
-        //TODO("Capture aqui os outro campos que foram inseridos no layout. Por exemplo, ate
-        // o momento so foi capturado o endereco (EditText)")
+        tituloEditText = view.findViewById(R.id.tituloItemEditText)
+        descricaoEditText = view.findViewById(R.id.descricaoItemEditText)
+        radioGroupCategoria = view.findViewById(R.id.radioGroupCategoria)
 
         auth = FirebaseAuth.getInstance()
 
@@ -83,11 +70,6 @@ class DashboardFragment : Fragment() {
         return view
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun openFileChooser() {
         val intent = Intent()
         intent.type = "image/*"
@@ -96,19 +78,59 @@ class DashboardFragment : Fragment() {
     }
 
     private fun salvarItem() {
-        //TODO("Capture aqui o conteudo que esta nos outros editTexts que foram criados")
+        val titulo = tituloEditText.text.toString().trim()
+        val descricao = descricaoEditText.text.toString().trim()
         val endereco = enderecoEditText.text.toString().trim()
+        
+        val selectedRadioId = radioGroupCategoria.checkedRadioButtonId
+        val categoria = if (selectedRadioId != -1) {
+            val selectedRadio = view?.findViewById<RadioButton>(selectedRadioId)
+            selectedRadio?.text.toString()
+        } else { "" }
 
-        if (endereco.isEmpty() || imageUri == null) {
-            Toast.makeText(context, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT)
-                .show()
+        // Validação
+        if (titulo.isEmpty()) {
+            Toast.makeText(context, "Por favor, informe o título", Toast.LENGTH_SHORT).show()
             return
         }
-        uploadImageToFirestore()
+        if (categoria.isEmpty()) {
+            Toast.makeText(context, "Por favor, selecione uma categoria", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (descricao.isEmpty()) {
+            Toast.makeText(context, "Por favor, informe a descrição", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (endereco.isEmpty()) {
+            Toast.makeText(context, "Por favor, informe o endereço", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (imageUri != null) {
+            uploadImageAndSave()
+        } else {
+            // Salvar sem imagem
+            val user = auth.currentUser
+            databaseReference = FirebaseDatabase.getInstance().getReference("itens")
+            val itemId = databaseReference.push().key ?: return
+
+            val item = Item(
+                id = itemId,
+                endereco = endereco,
+                base64Image = null,
+                imageUrl = null,
+                titulo = titulo,
+                descricao = descricao,
+                categoria = categoria,
+                nomeUsuario = user?.displayName ?: "Usuário",
+                uidUsuario = user?.uid,
+                status = "aberto"
+            )
+            saveItemIntoDatabase(item, itemId)
+        }
     }
 
-
-    private fun uploadImageToFirestore() {
+    private fun uploadImageAndSave() {
         if (imageUri != null) {
             val inputStream = context?.contentResolver?.openInputStream(imageUri!!)
             val bytes = inputStream?.readBytes()
@@ -117,16 +139,37 @@ class DashboardFragment : Fragment() {
             if (bytes != null) {
                 val base64Image = Base64.encodeToString(bytes, Base64.DEFAULT)
                 val endereco = enderecoEditText.text.toString().trim()
-                //TODO("Capture aqui o conteudo que esta nos outros editTexts que foram criados")
+                val titulo = tituloEditText.text.toString().trim()
+                val descricao = descricaoEditText.text.toString().trim()
+                
+                val selectedRadioId = radioGroupCategoria.checkedRadioButtonId
+                val categoria = if (selectedRadioId != -1) {
+                    val selectedRadio = view?.findViewById<RadioButton>(selectedRadioId)
+                    selectedRadio?.text.toString()
+                } else { "Outro" }
+                
+                val user = auth.currentUser
 
-                val item = Item(endereco, base64Image)
+                databaseReference = FirebaseDatabase.getInstance().getReference("itens")
+                val itemId = databaseReference.push().key ?: return
 
-                saveItemIntoDatabase(item)
+                val item = Item(
+                    id = itemId,
+                    endereco = endereco,
+                    base64Image = base64Image,
+                    imageUrl = null,
+                    titulo = titulo,
+                    descricao = descricao,
+                    categoria = categoria,
+                    nomeUsuario = user?.displayName ?: "Usuário",
+                    uidUsuario = user?.uid,
+                    status = "aberto"
+                )
+
+                saveItemIntoDatabase(item, itemId)
             }
         }
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -138,24 +181,24 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun saveItemIntoDatabase(item: Item) {
-        //TODO("Altere a raiz que sera criada no seu banco de dados do realtime database.
-        // Renomeie a raiz itens")
-        databaseReference = FirebaseDatabase.getInstance().getReference("itens")
+    private fun saveItemIntoDatabase(item: Item, itemId: String) {
+        // Agora todos os itens vão direto pra itens/{uid}/{itemId}
+        databaseReference.child(auth.uid.toString()).child(itemId).setValue(item)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Projeto publicado com sucesso!", Toast.LENGTH_SHORT).show()
+                limparFormulario()
+                findNavController().navigate(R.id.navigation_home)
+            }.addOnFailureListener {
+                Toast.makeText(context, "Falha ao publicar", Toast.LENGTH_SHORT).show()
+            }
+    }
 
-        // Cria uma chave unica para o novo item
-        val itemId = databaseReference.push().key
-        if (itemId != null) {
-            databaseReference.child(auth.uid.toString()).child(itemId).setValue(item)
-                .addOnSuccessListener {
-                    Toast.makeText(context, "Item cadastrado com sucesso!", Toast.LENGTH_SHORT)
-                        .show()
-                    requireActivity().supportFragmentManager.popBackStack()
-                }.addOnFailureListener {
-                    Toast.makeText(context, "Falha ao cadastrar o item", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(context, "Erro ao gerar o ID do item", Toast.LENGTH_SHORT).show()
-        }
+    private fun limparFormulario() {
+        tituloEditText.text.clear()
+        descricaoEditText.text.clear()
+        enderecoEditText.text.clear()
+        radioGroupCategoria.clearCheck()
+        imageUri = null
+        itemImageView.setImageResource(android.R.drawable.ic_menu_camera)
     }
 }

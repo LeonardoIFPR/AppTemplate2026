@@ -28,4 +28,11 @@
     <color name="fixpro_text_secondary">#9E9EB0</color>
     <color name="fixpro_divider">#2A2A3A</color>
     <color name="fixpro_link">#FFB347</color>
+
+    <color name="fixpro_pedido_amber">#FFB347</color>
+    <color name="fixpro_pedido_bg">#25FFB347</color>
+    <color name="fixpro_oferta_teal">#4ECDC4</color>
+    <color name="fixpro_oferta_bg">#254ECDC4</color>
+    <color name="fixpro_card_bg">#1A1A28</color>
+    <color name="fixpro_card_stroke">#12FFFFFF</color>
 </resources>

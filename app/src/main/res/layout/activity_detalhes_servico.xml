@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#111119"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    tools:context=".ui.detalhes.DetalhesServicoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="54dp"
+        android:paddingBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back_ios"
+                app:tint="#FFFFFF"
+                android:contentDescription="Voltar" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Detalhes do Projeto"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageCard"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/txtCategoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge_categoria"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:text="Categoria"
+            android:textColor="#AAFFFFFF"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Título do Projeto"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/txtEndereco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📍 Endereço"
+            android:textColor="#90FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginBottom="24dp" />
+            
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1AFFFFFF"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DESCRIÇÃO"
+            android:textColor="#50FFFFFF"
+            android:textSize="12sp"
+            android:letterSpacing="0.06"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtDescricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descrição completa"
+            android:textColor="#E0FFFFFF"
+            android:textSize="15sp"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="32dp" />
+
+        <TextView
+            android:id="@+id/txtAutor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Publicado por: Usuário"
+            android:textColor="#80FFFFFF"
+            android:textSize="13sp"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Formulário de Candidatura -->
+        <LinearLayout
+            android:id="@+id/candidaturaContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_glass_card"
+            android:padding="20dp"
+            android:visibility="gone">
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fazer uma Proposta"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <EditText
+                android:id="@+id/edtMensagemProposta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="3"
+                android:background="@drawable/selector_input_field"
+                android:padding="16dp"
+                android:hint="Escreva por que você é ideal para este projeto, qual o valor e o prazo..."
+                android:textColorHint="#50FFFFFF"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:gravity="top"
+                android:layout_marginBottom="16dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCandidatar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/ripple_button_primary"
+                android:stateListAnimator="@null"
+                android:text="Enviar Candidatura"
+                android:textAllCaps="false"
+                android:textColor="@color/fixpro_deep_blue"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        
+        <TextView
+            android:id="@+id/txtStatusCandidatura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="✓ Você já enviou uma proposta para este projeto"
+            android:textColor="@color/fixpro_pedido_amber"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@color/fixpro_pedido_bg"
+            android:layout_marginTop="20dp"
+            android:visibility="gone" />
+
+        <!-- Container para o dono ver os candidatos -->
+        <LinearLayout
+            android:id="@+id/candidatosContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</ScrollView>

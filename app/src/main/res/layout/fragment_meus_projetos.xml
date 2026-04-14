@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#111119"
-    android:orientation="vertical"
-    tools:context=".ui.home.HomeFragment">
+    android:orientation="vertical">
 
-    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,45 +15,45 @@
         android:paddingTop="54dp"
         android:paddingBottom="12dp">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/text_home"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="Explorar Projetos"
-                android:textColor="#FFFFFF"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Encontre a oportunidade ideal"
-                android:textColor="#60FFFFFF"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/btnPainelProjetos"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true">
+            android:src="@drawable/ic_arrow_back_ios"
+            app:tint="#FFFFFF"
+            android:contentDescription="Voltar" />
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_panel_premium" />
-        </FrameLayout>
+        <TextView
+            android:id="@+id/text_meus_projetos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="sans-serif"
+            android:text="Painel"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <!-- TabLayout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutProjetos"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_section_card"
+        app:tabBackground="@android:color/transparent"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabIndicatorColor="@color/fixpro_accent_teal"
+        app:tabIndicatorHeight="3dp"
+        app:tabIndicatorFullWidth="false"
+        app:tabSelectedTextColor="@color/fixpro_text_white"
+        app:tabTextColor="#60FFFFFF"
+        app:tabRippleColor="#15FFFFFF"
+        app:tabTextAppearance="@style/TabTextStyle" />
 
     <!-- Feed ScrollView -->
     <ScrollView
@@ -90,7 +87,7 @@
             android:layout_height="64dp"
             android:src="@drawable/ic_panel_premium"
             android:alpha="0.2"
-            android:tint="#FFFFFF" />
+            app:tint="#FFFFFF" />
 
         <TextView
             android:id="@+id/emptyStateText"
@@ -101,5 +98,4 @@
             android:textColor="#50FFFFFF"
             android:textSize="14sp" />
     </LinearLayout>
-
 </LinearLayout>

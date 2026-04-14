@@ -1,67 +1,265 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#111119"
+    android:fillViewport="true"
+    android:overScrollMode="never"
     tools:context=".ui.dashboard.DashboardFragment">
 
-
-    <TextView
-        android:id="@+id/text_dashboard"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:text="Cadastro de ..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="54dp"
+        android:paddingBottom="100dp">
 
-    <ImageView
-        android:id="@+id/image_item"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="32dp"
-        android:contentDescription="Store Photo"
-        android:scaleType="centerCrop"
-        android:src="@android:drawable/gallery_thumb"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_dashboard" />
+        <!-- Título da tela -->
+        <TextView
+            android:id="@+id/text_dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="Novo Projeto"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
 
-    <Button
-        android:id="@+id/button_select_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Selecionar Imagem"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_item" />
+        <TextView
+            android:id="@+id/text_dashboard_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Publique um serviço para encontrar o profissional ideal."
+            android:textColor="#90FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginBottom="24dp" />
 
+        <!-- Formulário dentro de um glass card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_glass_card"
+            android:orientation="vertical"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="22dp">
 
-    <EditText
-        android:id="@+id/enderecoItemEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Endereço"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_select_image" />
+            <!-- Seção: Dados do Serviço -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.06"
+                android:text="DADOS DO PROJETO"
+                android:textColor="#50FFFFFF"
+                android:textSize="11sp" />
 
+            <!-- Título -->
+            <EditText
+                android:id="@+id/tituloItemEditText"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/selector_input_field"
+                android:drawablePadding="14dp"
+                android:hint="Ex: Instalar tomadas na sala"
+                android:inputType="textCapSentences"
+                android:paddingHorizontal="18dp"
+                android:textColor="@color/fixpro_text_white"
+                android:textColorHint="@color/fixpro_text_hint"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp" />
 
-    <Button
-        android:id="@+id/salvarItemButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Salvar"
-        app:layout_constraintTop_toBottomOf="@id/enderecoItemEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            <!-- Categoria List -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:scrollbars="none"
+                android:overScrollMode="never">
 
+                <RadioGroup
+                    android:id="@+id/radioGroupCategoria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    
+                    <RadioButton
+                        android:id="@+id/radioEletricista"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_chip_categoria"
+                        android:button="@null"
+                        android:text="Eletricista"
+                        android:textColor="@color/selector_text_chip"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
+                        android:layout_marginEnd="8dp" />
+                        
+                    <RadioButton
+                        android:id="@+id/radioEncanador"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_chip_categoria"
+                        android:button="@null"
+                        android:text="Encanador"
+                        android:textColor="@color/selector_text_chip"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
+                        android:layout_marginEnd="8dp" />
+                        
+                    <RadioButton
+                        android:id="@+id/radioPintor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_chip_categoria"
+                        android:button="@null"
+                        android:text="Pintor"
+                        android:textColor="@color/selector_text_chip"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
+                        android:layout_marginEnd="8dp" />
+                        
+                    <RadioButton
+                        android:id="@+id/radioLimpeza"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_chip_categoria"
+                        android:button="@null"
+                        android:text="Limpeza"
+                        android:textColor="@color/selector_text_chip"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
+                        android:layout_marginEnd="8dp" />
+                        
+                    <RadioButton
+                        android:id="@+id/radioJardinagem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_chip_categoria"
+                        android:button="@null"
+                        android:text="Jardinagem"
+                        android:textColor="@color/selector_text_chip"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
+                        android:layout_marginEnd="8dp" />
+                        
+                    <RadioButton
+                        android:id="@+id/radioOutro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_chip_categoria"
+                        android:button="@null"
+                        android:text="Outro"
+                        android:textColor="@color/selector_text_chip"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp"
+                        android:layout_marginEnd="8dp" />
+                </RadioGroup>
+            </HorizontalScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Descrição -->
+            <EditText
+                android:id="@+id/descricaoItemEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/selector_input_field"
+                android:gravity="top|start"
+                android:hint="Descreva os detalhes do projeto, prazos e expectativas..."
+                android:inputType="textMultiLine|textCapSentences"
+                android:lines="4"
+                android:minLines="3"
+                android:paddingHorizontal="18dp"
+                android:paddingVertical="14dp"
+                android:textColor="@color/fixpro_text_white"
+                android:textColorHint="@color/fixpro_text_hint"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp" />
+
+            <!-- Endereço -->
+            <EditText
+                android:id="@+id/enderecoItemEditText"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/selector_input_field"
+                android:drawablePadding="14dp"
+                android:hint="Endereço / Local"
+                android:inputType="textPostalAddress"
+                android:paddingHorizontal="18dp"
+                android:textColor="@color/fixpro_text_white"
+                android:textColorHint="@color/fixpro_text_hint"
+                android:textCursorDrawable="@null"
+                android:textSize="15sp" />
+
+            <!-- Separator -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="20dp"
+                android:background="#10FFFFFF" />
+
+            <!-- Seção: Imagem -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.06"
+                android:text="REFERÊNCIA FOTOGRÁFICA (OPCIONAL)"
+                android:textColor="#50FFFFFF"
+                android:textSize="11sp" />
+
+            <!-- Imagem preview -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/image_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:background="@drawable/bg_image_placeholder"
+                    android:contentDescription="Foto do serviço"
+                    android:scaleType="centerInside"
+                    android:padding="50dp"
+                    android:alpha="0.4"
+                    app:tint="#FFFFFF"
+                    android:src="@drawable/ic_camera_premium" />
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/button_select_image"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_type_selector"
+                android:stateListAnimator="@null"
+                android:text="Anexar Imagem"
+                android:textAllCaps="false"
+                android:textColor="#CCFFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Botão Salvar -->
+        <Button
+            android:id="@+id/salvarItemButton"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/ripple_button_primary"
+            android:elevation="4dp"
+            android:letterSpacing="0.05"
+            android:stateListAnimator="@null"
+            android:text="Publicar Projeto"
+            android:textAllCaps="false"
+            android:textColor="@color/fixpro_deep_blue"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

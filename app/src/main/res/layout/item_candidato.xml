@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_glass_card"
+    android:padding="20dp"
+    android:layout_marginBottom="16dp">
+
+    <TextView
+        android:id="@+id/txtCandidatoNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Candidato: Nome"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/txtCandidatoMensagem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mensagem da proposta do candidato"
+        android:textColor="#B0B0C0"
+        android:textSize="14sp"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/btnCandidatoAcao"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/ripple_button_primary"
+        android:text="ACEITAR CANDIDATO"
+        android:textColor="@color/fixpro_deep_blue"
+        android:textStyle="bold"
+        android:stateListAnimator="@null" />
+</LinearLayout>

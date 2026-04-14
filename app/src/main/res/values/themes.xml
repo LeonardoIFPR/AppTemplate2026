@@ -21,6 +21,13 @@
     </style>
 
     <!-- Login/Cadastro theme (no ActionBar, dark bg) -->
+    <style name="TabTextStyle" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:letterSpacing">0.04</item>
+    </style>
+
     <style name="Theme.FixPro.Login" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/fixpro_accent_teal</item>
         <item name="colorPrimaryVariant">@color/fixpro_deep_blue</item>

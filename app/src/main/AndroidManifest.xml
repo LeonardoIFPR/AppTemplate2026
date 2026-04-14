@@ -22,7 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity 
+            android:name=".MainActivity"
+            android:theme="@style/Theme.FixPro.Login" />
         <activity
             android:name=".ui.usuario.CadastroUsuarioActivity"
             android:theme="@style/Theme.FixPro.Login" />
@@ -34,5 +36,13 @@
             android:name=".ui.configuracoes.SettingsActivity"
             android:label="Configurações"
             android:theme="@style/Theme.AndroidAppTemplate"/>
+        <activity
+            android:name=".ui.detalhes.DetalhesServicoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FixPro.Login" />
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FixPro.Login" />
     </application>
 </manifest>

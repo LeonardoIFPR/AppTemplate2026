@@ -1,45 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_item_card"
+    android:orientation="vertical"
+    android:padding="16dp">
 
+    <!-- Header: Badge de tipo + Categoria -->
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
 
-        <ImageView
-            android:id="@+id/item_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:layout_marginEnd="8dp" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/item_status_badge"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:background="@drawable/bg_badge_oferta"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:text="ABERTO"
+            android:textColor="@color/fixpro_oferta_teal"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.08" />
 
-            <TextView
-                android:id="@+id/item_endereco"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Endereço:"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <!-- Campos futuros aqui -->
-        </LinearLayout>
+        <!-- Badge de categoria -->
+        <TextView
+            android:id="@+id/item_badge_categoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_badge_categoria"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:text="Categoria"
+            android:textColor="#AAFFFFFF"
+            android:textSize="10sp"
+            android:fontFamily="sans-serif-medium" />
     </LinearLayout>
 
-    <View
+    <!-- Título do serviço -->
+    <TextView
+        android:id="@+id/item_titulo"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#CCCCCC"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_height="wrap_content"
+        android:text="Título do Serviço"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        android:layout_marginBottom="6dp" />
+
+    <!-- Conteúdo: Imagem + Info -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Imagem (se existir) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item_image_card"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent">
+
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:background="#0AFFFFFF" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Info vertical -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Descrição -->
+            <TextView
+                android:id="@+id/item_descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descrição do serviço..."
+                android:textColor="#99FFFFFF"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp" />
+
+            <!-- Endereço -->
+            <TextView
+                android:id="@+id/item_endereco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="📍 Endereço"
+                android:textColor="#70FFFFFF"
+                android:textSize="12sp" />
+
+            <!-- Autor -->
+            <TextView
+                android:id="@+id/item_autor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Por: Usuário"
+                android:textColor="#50FFFFFF"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif-medium" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
