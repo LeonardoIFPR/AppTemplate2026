@@ -1,0 +1,34 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="56dp"
+    android:viewportWidth="48"
+    android:viewportHeight="56">
+
+    <!-- Pin shape (drop) -->
+    <path
+        android:fillColor="#00C9A7"
+        android:pathData="M24,0 C13.5,0 5,8.5 5,19 C5,33.25 24,56 24,56 C24,56 43,33.25 43,19 C43,8.5 34.5,0 24,0 Z" />
+
+    <!-- Inner white circle background -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,8 C16.27,8 10,14.27 10,22 C10,29.73 16.27,36 24,36 C31.73,36 38,29.73 38,22 C38,14.27 31.73,8 24,8 Z" />
+
+    <!-- Hard hat / capacete (trabalhador FixPro) -->
+    <!-- Brim da aba -->
+    <path
+        android:fillColor="#00C9A7"
+        android:pathData="M14,24 L34,24 L34,26 L14,26 Z" />
+    <!-- Topo arredondado do capacete -->
+    <path
+        android:fillColor="#00C9A7"
+        android:pathData="M24,13 C18,13 15,17 15,21 L15,24 L33,24 L33,21 C33,17 30,13 24,13 Z" />
+    <!-- Acabamento topo -->
+    <path
+        android:fillColor="#009E80"
+        android:pathData="M21,13 L27,13 L27,15 L21,15 Z" />
+    <!-- Chave inglesa pequena em baixo -->
+    <path
+        android:fillColor="#00C9A7"
+        android:pathData="M22,27 L26,27 L25.5,31 L22.5,31 Z" />
+</vector>

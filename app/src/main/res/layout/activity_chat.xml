@@ -26,8 +26,9 @@
             app:tint="#FFFFFF"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginStart="16dp">
 
@@ -48,6 +49,25 @@
                 android:textColor="#80FFFFFF"
                 android:textSize="12sp" />
         </LinearLayout>
+
+        <!-- Botão Ver Rota — visível apenas para o trabalhador -->
+        <FrameLayout
+            android:id="@+id/btnVerRota"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_profile_circle"
+            android:backgroundTint="#1A00C9A7"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_marker_fixpro_worker" />
+        </FrameLayout>
+
     </LinearLayout>
 
     <View

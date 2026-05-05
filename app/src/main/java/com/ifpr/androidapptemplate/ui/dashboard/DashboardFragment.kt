@@ -2,28 +2,32 @@ package com.ifpr.androidapptemplate.ui.dashboard
 
 import android.app.Activity
 import android.content.Intent
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.RadioGroup
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.StorageReference
 import com.ifpr.androidapptemplate.R
 import com.ifpr.androidapptemplate.baseclasses.Item
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Locale
 
 class DashboardFragment : Fragment() {
 
@@ -48,7 +52,6 @@ class DashboardFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        // Capturar campos do layout
         itemImageView = view.findViewById(R.id.image_item)
         salvarButton = view.findViewById(R.id.salvarItemButton)
         selectImageButton = view.findViewById(R.id.button_select_image)
@@ -81,14 +84,13 @@ class DashboardFragment : Fragment() {
         val titulo = tituloEditText.text.toString().trim()
         val descricao = descricaoEditText.text.toString().trim()
         val endereco = enderecoEditText.text.toString().trim()
-        
+
         val selectedRadioId = radioGroupCategoria.checkedRadioButtonId
         val categoria = if (selectedRadioId != -1) {
             val selectedRadio = view?.findViewById<RadioButton>(selectedRadioId)
             selectedRadio?.text.toString()
         } else { "" }
 
-        // Validação
         if (titulo.isEmpty()) {
             Toast.makeText(context, "Por favor, informe o título", Toast.LENGTH_SHORT).show()
             return
@@ -106,31 +108,66 @@ class DashboardFragment : Fragment() {
             return
         }
 
-        if (imageUri != null) {
-            uploadImageAndSave()
-        } else {
-            // Salvar sem imagem
-            val user = auth.currentUser
-            databaseReference = FirebaseDatabase.getInstance().getReference("itens")
-            val itemId = databaseReference.push().key ?: return
+        // Desabilitar botão durante geocoding
+        salvarButton.isEnabled = false
+        salvarButton.text = "Verificando endereço..."
 
-            val item = Item(
-                id = itemId,
-                endereco = endereco,
-                base64Image = null,
-                imageUrl = null,
-                titulo = titulo,
-                descricao = descricao,
-                categoria = categoria,
-                nomeUsuario = user?.displayName ?: "Usuário",
-                uidUsuario = user?.uid,
-                status = "aberto"
-            )
-            saveItemIntoDatabase(item, itemId)
+        // Geocodificar o endereço para obter lat/lng (obrigatório para raio de notificações)
+        CoroutineScope(Dispatchers.IO).launch {
+            var latitude: Double? = null
+            var longitude: Double? = null
+
+            try {
+                val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                val results = geocoder.getFromLocationName(endereco, 1)
+                if (!results.isNullOrEmpty()) {
+                    latitude = results[0].latitude
+                    longitude = results[0].longitude
+                }
+            } catch (_: Exception) { }
+
+            withContext(Dispatchers.Main) {
+                salvarButton.isEnabled = true
+                salvarButton.text = "Publicar Projeto"
+
+                if (latitude == null || longitude == null) {
+                    Toast.makeText(
+                        context,
+                        "❌ Endereço não encontrado. Use um endereço completo (ex: Rua XV de Novembro, 100, Curitiba, PR).",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@withContext
+                }
+
+                // Endereço válido — salvar com coordenadas
+                if (imageUri != null) {
+                    uploadImageAndSave(latitude, longitude)
+                } else {
+                    val user = auth.currentUser
+                    databaseReference = FirebaseDatabase.getInstance().getReference("itens")
+                    val itemId = databaseReference.push().key ?: return@withContext
+
+                    val item = Item(
+                        id = itemId,
+                        endereco = endereco,
+                        base64Image = null,
+                        imageUrl = null,
+                        titulo = titulo,
+                        descricao = descricao,
+                        categoria = categoria,
+                        nomeUsuario = user?.displayName ?: "Usuário",
+                        uidUsuario = user?.uid,
+                        status = "aberto",
+                        latitude = latitude,
+                        longitude = longitude
+                    )
+                    saveItemIntoDatabase(item, itemId)
+                }
+            }
         }
     }
 
-    private fun uploadImageAndSave() {
+    private fun uploadImageAndSave(latitude: Double, longitude: Double) {
         if (imageUri != null) {
             val inputStream = context?.contentResolver?.openInputStream(imageUri!!)
             val bytes = inputStream?.readBytes()
@@ -141,13 +178,13 @@ class DashboardFragment : Fragment() {
                 val endereco = enderecoEditText.text.toString().trim()
                 val titulo = tituloEditText.text.toString().trim()
                 val descricao = descricaoEditText.text.toString().trim()
-                
+
                 val selectedRadioId = radioGroupCategoria.checkedRadioButtonId
                 val categoria = if (selectedRadioId != -1) {
                     val selectedRadio = view?.findViewById<RadioButton>(selectedRadioId)
                     selectedRadio?.text.toString()
                 } else { "Outro" }
-                
+
                 val user = auth.currentUser
 
                 databaseReference = FirebaseDatabase.getInstance().getReference("itens")
@@ -163,7 +200,9 @@ class DashboardFragment : Fragment() {
                     categoria = categoria,
                     nomeUsuario = user?.displayName ?: "Usuário",
                     uidUsuario = user?.uid,
-                    status = "aberto"
+                    status = "aberto",
+                    latitude = latitude,
+                    longitude = longitude
                 )
 
                 saveItemIntoDatabase(item, itemId)
@@ -182,7 +221,6 @@ class DashboardFragment : Fragment() {
     }
 
     private fun saveItemIntoDatabase(item: Item, itemId: String) {
-        // Agora todos os itens vão direto pra itens/{uid}/{itemId}
         databaseReference.child(auth.uid.toString()).child(itemId).setValue(item)
             .addOnSuccessListener {
                 Toast.makeText(context, "Projeto publicado com sucesso!", Toast.LENGTH_SHORT).show()

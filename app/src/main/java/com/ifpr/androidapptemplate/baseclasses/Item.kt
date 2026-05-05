@@ -10,5 +10,7 @@ data class Item(
     var categoria: String? = null,
     var nomeUsuario: String? = null,
     var uidUsuario: String? = null,
-    var status: String? = "aberto" // aberto, em_andamento, concluido
+    var status: String? = "aberto", // aberto, em_andamento, concluido
+    var latitude: Double? = null,
+    var longitude: Double? = null
 )

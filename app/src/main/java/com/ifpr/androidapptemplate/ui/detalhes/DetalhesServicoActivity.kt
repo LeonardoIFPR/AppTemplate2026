@@ -152,6 +152,8 @@ class DetalhesServicoActivity : AppCompatActivity() {
                                 intent.putExtra("PROPOSTA_ID", propEnviada.id)
                                 intent.putExtra("PARTICIPANT_NAME", txtAutor.text.toString().replace("Publicado por: ", ""))
                                 intent.putExtra("PROJECT_NAME", txtTitulo.text.toString())
+                                intent.putExtra("ITEM_ID", itemId)
+                                intent.putExtra("DONO_ID", donoId)
                                 startActivity(intent)
                             }
                         } else {
@@ -240,6 +242,8 @@ class DetalhesServicoActivity : AppCompatActivity() {
                             intent.putExtra("PROPOSTA_ID", proposta.id)
                             intent.putExtra("PARTICIPANT_NAME", proposta.nomeCandidato)
                             intent.putExtra("PROJECT_NAME", txtTitulo.text.toString())
+                            intent.putExtra("ITEM_ID", itemId)
+                            intent.putExtra("DONO_ID", donoId)
                             startActivity(intent)
                         } else {
                             aceitarCandidato(proposta)
