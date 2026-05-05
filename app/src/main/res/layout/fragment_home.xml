@@ -40,6 +40,14 @@
                 android:text="Encontre a oportunidade ideal"
                 android:textColor="#60FFFFFF"
                 android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/currentAddressTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#80FFFFFF"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <FrameLayout
